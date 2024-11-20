@@ -17,7 +17,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   app:
-    image: lolzyy/bdo-market-kafka-app
+    image: lolzyy/springbootapp
     depends_on:
       - kafka
     environment:
