@@ -50,7 +50,9 @@ sonarqube {
     properties {
         property "sonar.projectKey", "testproj"
         property "sonar.projectName", "springboot app"
-        property "sonar.host.url", "http://localhost:9000"
-
+        property "sonar.host.url", "http://sonarqube:9000"
+        property "sonar.java.binaries", "${buildDir}/classes"
+        property "sonar.sources", "src/main/java"
+        property "sonar.java.source", "17"
     }
 }
