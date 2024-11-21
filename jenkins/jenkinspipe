@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        DOCKER_IMAGE = 'lolzyy/springbootapp'
+        DOCKER_TAG = 'latest'
+        SONARQUBE_SERVER = 'sonarserver' // Name you provided in Jenkins SonarQube configuration
+        SONAR_TOKEN = credentials('sonarqube') 
+    }
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/guala01/jenkinsdemo.git'
+            }
+        }
+        stage('Build Gradle Project') {
+            steps {
+                sh './gradlew clean build'
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv("${SONARQUBE_SERVER}") {
+                    sh "./gradlew sonarqube -Dsonar.login=${SONAR_TOKEN}"
+                }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+            }
+        }
+        stage('Login to DockerHub') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('Push to DockerHub') {
+            steps {
+                sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
+            }
+        }
+    }
+    post {
+        always {
+            sh 'docker logout'
+            cleanWs()
+        }
+    }
+}
