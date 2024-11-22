@@ -4,7 +4,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
         DOCKER_IMAGE = 'lolzyy/springbootapp'
         DOCKER_TAG = 'latest'
-        SONARQUBE_SERVER = 'sonarserver' // Name you provided in Jenkins SonarQube configuration
+        SONARQUBE_SERVER = 'sonarserver' 
         SONAR_TOKEN = credentials('sonarqube') 
     }
     stages {
@@ -18,7 +18,7 @@ pipeline {
             steps {
                 sh 'chmod +x gradlew'
                 sh './gradlew test'
-                sh './gradlew clean build'
+                sh './gradlew clean build --quiet'
             }
         }
         stage('SonarQube Analysis') {
