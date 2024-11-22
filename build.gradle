@@ -16,7 +16,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+		languageVersion = JavaLanguageVersion.of(22)
 	}
 }
 
@@ -24,9 +24,7 @@ repositories {
 	mavenCentral()
 	maven { url 'https://repo.spring.io/milestone' }
 }
-test {
-    useJUnitPlatform()
-}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter'
@@ -54,5 +52,16 @@ sonarqube {
         property "sonar.java.binaries", "${buildDir}/classes"
         property "sonar.sources", "src/main/java"
         property "sonar.java.source", "17"
+    }
+}
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = false
+        showExceptions = true
+        showCauses = true
+        showStackTraces = true
+        exceptionFormat = 'full'
     }
 }
