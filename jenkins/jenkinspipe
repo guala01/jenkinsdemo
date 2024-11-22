@@ -17,16 +17,17 @@ pipeline {
         stage('Build Gradle Project') {
             steps {
                 sh 'chmod +x gradlew'
+                sh './gradlew test'
                 sh './gradlew clean build'
             }
         }
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv("${SONARQUBE_SERVER}") {
-                    sh "./gradlew sonarqube -Dsonar.login=${SONAR_TOKEN}"
-                }
-            }
+    steps {
+        withSonarQubeEnv("${SONARQUBE_SERVER}") {
+            sh "./gradlew sonarqube -Dsonar.login=${SONAR_TOKEN}"
         }
+    }
+}
         stage('Build Docker Image') {
             steps {
                 sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
