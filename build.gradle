@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.3.2'
 	id 'io.spring.dependency-management' version '1.1.6'
 	id 'org.sonarqube' version '4.4.1.3373'
+    id 'jacoco' 
 }
 
 dependencyManagement {
@@ -49,13 +50,32 @@ sonarqube {
         property "sonar.projectKey", "testproj"
         property "sonar.projectName", "springboot app"
         property "sonar.host.url", "http://sonarqube:9000"
-        property "sonar.java.binaries", "${buildDir}/classes"
         property "sonar.sources", "src/main/java"
+        property "sonar.tests", "src/test/java"
+        property "sonar.java.binaries", "${buildDir}/classes/java/main"
+        property "sonar.java.test.binaries", "${buildDir}/classes/java/test"
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
         property "sonar.java.source", "17"
     }
 }
+
+jacoco {
+    toolVersion = "0.8.10" 
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport 
     testLogging {
         events "passed", "skipped", "failed"
         showStandardStreams = false

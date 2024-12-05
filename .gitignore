@@ -40,3 +40,12 @@ application-local.yml
 ### OS specific ###
 .DS_Store
 Thumbs.db
+.gradle/8.8/checksums/checksums.lock
+.gradle/8.8/checksums/md5-checksums.bin
+.gradle/8.8/checksums/sha1-checksums.bin
+.gradle/8.8/fileHashes/fileHashes.bin
+.gradle/8.8/fileHashes/fileHashes.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+Jenkinsfile
+.gradle/8.8/checksums/checksums.lock
+BaseJenkinsfile
