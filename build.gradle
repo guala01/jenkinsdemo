@@ -57,6 +57,7 @@ sonarqube {
         property "sonar.java.coveragePlugin", "jacoco"
         property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
         property "sonar.java.source", "17"
+        property "sonar.qualitygate.wait", "true"
     }
 }
 
