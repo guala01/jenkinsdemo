@@ -39,7 +39,9 @@ dependencies {
     testImplementation 'junit:junit:4.11'
 }
 
-
+tasks.named('test') {
+	useJUnitPlatform()
+}
 bootJar {
     archiveBaseName.set('cloud-email')
     archiveVersion.set('0.0.1-SNAPSHOT')
@@ -74,7 +76,6 @@ jacocoTestReport {
 }
 
 test {
-    useJUnitPlatform()
     finalizedBy jacocoTestReport 
     testLogging {
         events "passed", "skipped", "failed"
