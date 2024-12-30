@@ -86,3 +86,11 @@ test {
         exceptionFormat = 'full'
     }
 }
+sourceSets {
+    test {
+        java {
+            srcDirs = ['src/test/java']
+            include '**/*.java'
+        }
+    }
+}
